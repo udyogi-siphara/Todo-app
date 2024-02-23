@@ -3,18 +3,26 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    ImageBackground,
+    ImageBackground
   } from "react-native";
   import React, { useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
+import login from '../assets/login.png';
 
 const LoginScreens = () => {
     const navigate = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     return (
+    <ImageBackground style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            width:"98%",
+            height:"95%",
+        }} source={login} resizeMode="cover">
         <View
-          style={{
+         style={{
             justifyContent: "center",
             alignItems: "center",
             width: 330,
@@ -22,17 +30,16 @@ const LoginScreens = () => {
             padding: 20,
             elevation: 1,
             borderRadius: 10,
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-          }}
-        >
+          }}>
           <Text
             style={{
               fontSize: 34,
               marginBottom: 20,
-              color: "gray",
+              color: "#23143B",
+              fontWeight:500
             }}
           >
-            Login In
+            Log In
           </Text>
           <TextInput
             placeholder="Email"
@@ -42,7 +49,7 @@ const LoginScreens = () => {
             style={{
               padding: 8,
               borderWidth: 1,
-              borderColor: "#e3e3e3",
+              borderColor: "#23143B",
               borderRadius: 5,
               width: "100%",
               marginBottom: 10,
@@ -56,7 +63,7 @@ const LoginScreens = () => {
             style={{
               padding: 8,
               borderWidth: 1,
-              borderColor: "#e3e3e3",
+              borderColor: "#23143B",
               borderRadius: 5,
               width: "100%",
               marginBottom: 10,
@@ -64,10 +71,10 @@ const LoginScreens = () => {
           />
           <TouchableOpacity
             onPress={() => {
-              navigate.navigate("Signup");
+              navigate.navigate("Main");
             }}
             style={{
-              backgroundColor: "lightblue",
+              backgroundColor: "#6C627C",
               paddingHorizontal: 20,
               paddingVertical: 10,
               borderRadius: 5,
@@ -75,10 +82,16 @@ const LoginScreens = () => {
             }}
           >
             <Text style={{ color: "white", fontSize: 16, textAlign: "center" }}>
-              Login In
+              Log In
             </Text>
           </TouchableOpacity>
+          <Text onPress={() => {
+              navigate.navigate("Signup");
+            }}>
+            You haven't an account?Signup 
+          </Text>
         </View>
+    </ImageBackground>
       
     );
   };
