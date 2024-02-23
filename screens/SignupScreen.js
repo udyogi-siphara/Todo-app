@@ -12,7 +12,7 @@ import login from '../assets/login.png';
 
 const SignupScreen = () => {
     const navigate = useNavigation();
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     return (
 
@@ -37,9 +37,9 @@ const SignupScreen = () => {
             Signup
           </Text>
           <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            placeholder="User name"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
             
             style={{
               padding: 8,

@@ -12,7 +12,7 @@ import login from '../assets/login.png';
 
 const LoginScreens = () => {
     const navigate = useNavigation();
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     return (
         <View
@@ -36,9 +36,9 @@ const LoginScreens = () => {
             Log In
           </Text>
           <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+            placeholder="User name"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
             
             style={{
               padding: 8,
@@ -65,7 +65,7 @@ const LoginScreens = () => {
           />
           <TouchableOpacity
             onPress={() => {
-              navigate.navigate("Main");
+              navigate.navigate("Todo-List");
             }}
             style={{
               backgroundColor: "#6C627C",
