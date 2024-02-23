@@ -10,21 +10,22 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import login from '../assets/login.png';
 
-const LoginScreens = () => {
+const SignupScreen = () => {
     const navigate = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     return (
+
         <View
          style={{
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 100,
             paddingLeft: 25,
             paddingRight:25,
             elevation: 1,
             borderRadius: 10,
           }}>
-          <Image source={login} style={styles.image} resizeMode="contain"/>
           <Text
             style={{
               fontSize: 34,
@@ -33,7 +34,7 @@ const LoginScreens = () => {
               fontWeight:500
             }}
           >
-            Log In
+            Signup
           </Text>
           <TextInput
             placeholder="Email"
@@ -76,27 +77,28 @@ const LoginScreens = () => {
             }}
           >
             <Text style={{ color: "white", fontSize: 16, textAlign: "center" }}>
-              Log In
+              Signup
             </Text>
           </TouchableOpacity>
           <Text style={{marginTop:30}} onPress={() => {
-              navigate.navigate("Signup");
+              navigate.navigate("Login");
             }}>
-            You haven't an account?Signup 
+            Already have an account?Login 
           </Text>
+          <Image source={login} style={styles.image} resizeMode="contain"/>
         </View>
-    
       
     );
   };
-
+  
   const styles = StyleSheet.create({
     image: {
       width: 150, // Width of the image
       height: 150, // Height of the image
-      marginTop:80, // Margin bottom
+      marginTop: 50, // Margin bottom
+      marginLeft:130,
+      
     },
   });
 
-  
-  export default LoginScreens;
+  export default SignupScreen;
