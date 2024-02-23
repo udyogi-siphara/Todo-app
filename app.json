@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e112cde4-81ba-4cdc-a1df-306b9a1d6f3b"
+      }
+    },
+    "owner": "udyogi"
   }
 }
