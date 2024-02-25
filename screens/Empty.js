@@ -1,31 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Todo from '../components/Todo.js';
 import empty from '../assets/empty.png';
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import {TodoRepostry} from '../repository/todoRepository';
-
+import { todosActions } from "../redux/todoSlice";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from '../redux/store.js';
 
 const Empty = () => {
-  const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const todos = useSelector(state => state.todos.todos); 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log(todos);
+    dispatch(todosActions.fetchTodos()); 
+    setLoading(false);
+  }, [dispatch]);
 
   const handleAddTodo = (text) => {
-    setTodos(prevTodos => [...prevTodos, { id: Date.now().toString(), text }]);
+    dispatch(todosActions.addTodo({
+      title: text,
+    }));
   };
+
   const handleUpdateTodo = (id) => {
-    TodoRepostry.updateTodo({title:id});
-    console.log("Update todo with id:", id);
+    dispatch(todosActions.updateTodo({
+      id: id,
+    }));
   };
 
   const handleDeleteTodo = (id) => {
-    TodoRepostry.deleteTodo({title:id});
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+    dispatch(todosActions.deleteTodo({
+      id: id,
+    }));
   };
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={{color:'#23143B',textAlign:'left' ,fontSize:25, fontWeight:200, marginTop:20}}>Hi! Udyogi</Text>
-      {todos.length === 0 ? (
+      <Text style={{ color: '#23143B', textAlign: 'left', fontSize: 25, fontWeight: 200, marginTop: 20 }}>Hi! Udyogi</Text>
+      {todos ? (
         <View style={styles.imageContainer}>
           <Image source={empty} style={styles.image} resizeMode="contain" />
         </View>
@@ -48,8 +66,7 @@ const Empty = () => {
           keyExtractor={item => item.id}
         />
       )}
-      {/* Add Todo component */}
-      <Todo style={{paddingTop:10}} onAdd={handleAddTodo} />
+      <Todo onAdd={handleAddTodo} />
     </View>
   );
 };
@@ -78,25 +95,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 20,
     width: "100%",
-    display:"flex",
-    flexDirection:"row",
+    display: "flex",
+    flexDirection: "row",
     justifyContent: 'space-between',
-    alignItems:'center'
-    
+    alignItems: 'center'
   },
   todoText: {
     color: "white",
     fontSize: 20,
     textAlign: "left",
-    marginLeft:10,
-    
+    marginLeft: 10,
   },
   buttonContainer: {
-    display:"flex",
-    flexDirection:"row",
+    display: "flex",
+    flexDirection: "row",
     justifyContent: 'space-between',
-    marginLeft:10,
-    gap:5
+    marginLeft: 10,
+    gap: 5
   },
   button: {
     backgroundColor: 'transparent',
@@ -104,10 +119,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 5,
   },
-  
   buttonText: {
     color: '#23143B',
-    fontSize:20
+    fontSize: 20
   },
 });
 

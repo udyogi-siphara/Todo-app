@@ -9,11 +9,21 @@ import {
   import React, { useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import login from '../assets/login.png';
+import { useAppDispatch } from '../redux/store.js';
+import { userActions } from "../redux/userSlice.js";
 
 const SignupScreen = () => {
     const navigate = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useAppDispatch();
+
+    const handleSignup = () => {
+      
+      dispatch(userActions.addUser({ username, password }));
+      navigate.navigate("Login");
+  };
+
     return (
 
         <View
@@ -23,8 +33,6 @@ const SignupScreen = () => {
             marginTop: 100,
             paddingLeft: 25,
             paddingRight:25,
-            elevation: 1,
-            borderRadius: 10,
           }}>
           <Text
             style={{
@@ -65,9 +73,7 @@ const SignupScreen = () => {
             }}
           />
           <TouchableOpacity
-            onPress={() => {
-              navigate.navigate("Main");
-            }}
+            onPress={handleSignup}
             style={{
               backgroundColor: "#6C627C",
               paddingHorizontal: 20,

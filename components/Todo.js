@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import {TodoRepostry} from '../repository/todoRepository';
+import { useAppDispatch } from "../redux/store.js";
+import { todosActions } from "../redux/todoSlice.js";
 
-const Todo = ({ onAdd }) => {
+const Todo = () => {
   const [text, setText] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleAddTodo = () => {
-    if (text.trim()) {
-      onAdd(text);
+      dispatch(todosActions.addTodo({
+        title:text
+      }));
+
       setText('');
-      TodoRepostry.createTodo({title:text});
+      // navigate.navigate("Todo-List");
+    
   };
 
   return (
@@ -27,7 +32,7 @@ const Todo = ({ onAdd }) => {
     </View>
   );
 };
-};
+
 
 const styles = StyleSheet.create({
   container: {

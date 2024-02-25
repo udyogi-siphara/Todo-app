@@ -6,14 +6,48 @@ import {
     StyleSheet,
     Image
   } from "react-native";
-  import React, { useState } from 'react';
+  import React, { useState,useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import login from '../assets/login.png';
+import { userActions } from "../redux/userSlice.js";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from '../redux/store.js';
+
 
 const LoginScreens = () => {
     const navigate = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const users = useSelector(state => state.user.users); 
+    const dispatch = useAppDispatch();
+  
+    useEffect(() => {
+      dispatch(userActions.fetchUsers()); 
+      
+    }, [dispatch]);
+
+    const handleLogin = () => {
+      console.log(users.username)
+      console.log(users.password)
+      // const user = { username, password };
+      const isLoggedIn = false;
+      for (let index = 0; index < users.length; index++) {
+        console.log(users)
+        if(users[index].username==username&&users[index].password==password){
+          isLoggedIn=true
+        }
+      }
+
+      if (isLoggedIn) {
+          navigate.navigate("Todo-List");
+          console.log("enwaaa")
+      } else {
+          alert("Invalid username or password. Please try again.");
+      }
+      //navigate.navigate("Todo-List");
+      
+  };
+
     return (
         <View
          style={{
@@ -21,8 +55,8 @@ const LoginScreens = () => {
             alignItems: "center",
             paddingLeft: 25,
             paddingRight:25,
-            elevation: 1,
-            borderRadius: 10,
+            
+            
           }}>
           <Image source={login} style={styles.image} resizeMode="contain"/>
           <Text
@@ -64,9 +98,7 @@ const LoginScreens = () => {
             }}
           />
           <TouchableOpacity
-            onPress={() => {
-              navigate.navigate("Todo-List");
-            }}
+            onPress={handleLogin}
             style={{
               backgroundColor: "#6C627C",
               paddingHorizontal: 20,
