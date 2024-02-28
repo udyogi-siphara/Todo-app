@@ -9,42 +9,23 @@ import {
   import React, { useState,useEffect } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import login from '../assets/login.png';
-import { userActions } from "../redux/userSlice.js";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from '../redux/store.js';
+
 
 
 const LoginScreens = () => {
     const navigate = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const users = useSelector(state => state.user.users); 
-    const dispatch = useAppDispatch();
-  
-    useEffect(() => {
-      dispatch(userActions.fetchUsers()); 
-      
-    }, [dispatch]);
-
+    
     const handleLogin = () => {
-      console.log(users.username)
-      console.log(users.password)
-      // const user = { username, password };
-      const isLoggedIn = false;
-      for (let index = 0; index < users.length; index++) {
-        console.log(users)
-        if(users[index].username==username&&users[index].password==password){
-          isLoggedIn=true
-        }
-      }
-
+      const isLoggedIn = username === "Udyogi" && password === "usra12";
+      
       if (isLoggedIn) {
           navigate.navigate("Todo-List");
-          console.log("enwaaa")
       } else {
           alert("Invalid username or password. Please try again.");
       }
-      //navigate.navigate("Todo-List");
+      
       
   };
 
@@ -124,9 +105,9 @@ const LoginScreens = () => {
 
   const styles = StyleSheet.create({
     image: {
-      width: 150, // Width of the image
-      height: 150, // Height of the image
-      marginTop:80, // Margin bottom
+      width: 150, 
+      height: 150, 
+      marginTop:80,
     },
   });
 

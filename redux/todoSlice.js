@@ -1,10 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  createTodo,
-  deleteTodo,
-  updateTodo,
-  readTodo,
-} from "../repository/todoRepository";
 
 
 export const todoSlice = createSlice({
@@ -14,26 +8,32 @@ export const todoSlice = createSlice({
   },
   reducers: {
     addTodo: (state, action) => {
-    createTodo({
-        title: action.payload.title,
-      });
-      state.todos = readTodo();
-      alert("Task added successfully");
+    state.todos = [...state.todos, {title:action.payload.title}]
+    alert("Task added successfully");
     },
     updateTodo: (state, action) => {
-      updateTodo({
-        title: action.payload.title,
-      });
-      state.todos = readTodo();
+      let todosList= state.todos
+      for (let i = 0; i < todosList.length; i++) {
+       if (todosList[i].title==action.payload.prevTitle) {
+         todosList[i].title = action.payload.afterTitle;
+       }
+        
+      }
+      state.todos=todosList;
       alert("Task updated successfully");
     },
     deleteTodo: (state, action) => {
-      deleteTodo(action.payload);
-      state.todos = readTodo();
+      let todosList= state.todos
+      for (let i = 0; i < todosList.length; i++) {
+       if (todosList[i].title==action.payload.title) {
+        todosList.splice(i, 1);
+        break;
+       }
+      }
+      state.todos=todosList;
       alert("Task deleted successfully");
     },
     fetchTodos: () => {
-      readTodo();
     },
     setTodo: (state, action) => {
       state.todos = action.payload;

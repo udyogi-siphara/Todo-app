@@ -16,11 +16,8 @@ const SignupScreen = () => {
     const navigate = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const dispatch = useAppDispatch();
 
     const handleSignup = () => {
-      
-      dispatch(userActions.addUser({ username, password }));
       navigate.navigate("Login");
   };
 
@@ -99,9 +96,9 @@ const SignupScreen = () => {
   
   const styles = StyleSheet.create({
     image: {
-      width: 150, // Width of the image
-      height: 150, // Height of the image
-      marginTop: 50, // Margin bottom
+      width: 150, 
+      height: 150, 
+      marginTop: 50, 
       marginLeft:130,
       
     },

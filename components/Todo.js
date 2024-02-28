@@ -1,19 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useAppDispatch } from "../redux/store.js";
 import { todosActions } from "../redux/todoSlice.js";
 
-const Todo = () => {
+const Todo = (props) => {
   const [text, setText] = useState('');
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    setText(props.title)
+  }, [props.title]);
+
   const handleAddTodo = () => {
+   if(props.isUpdate){
+    dispatch(todosActions.updateTodo({
+      prevTitle:props.title,
+      afterTitle:text
+    }));
+    props.setIsUpdate(false);
+    
+    setText('');
+    props.setTitle("")
+    
+    return;
+   }
       dispatch(todosActions.addTodo({
         title:text
       }));
 
+      dispatch(todosActions.fetchTodos());
+
       setText('');
-      // navigate.navigate("Todo-List");
     
   };
 
@@ -23,10 +40,10 @@ const Todo = () => {
         style={styles.input}
         placeholder="New Task"
 
-        onChangeText={setText}
+        onChangeText={(text) => setText(text)}
         value={text}
       />
-      <TouchableOpacity style={styles.addButton} onPress={handleAddTodo}>
+      <TouchableOpacity style={styles.addButton} onPress={()=>{handleAddTodo()}}>
         <Text style={styles.buttonText}>Add</Text>
       </TouchableOpacity>
     </View>

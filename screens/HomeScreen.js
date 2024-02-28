@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 function HomeScreen() {
     const navigate = useNavigation();
+    
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Image source={logo} style={styles.image} resizeMode="contain"/>
@@ -36,12 +37,12 @@ function HomeScreen() {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#eee', // Background color
+      backgroundColor: '#eee', 
     },
     image: {
-      width: 150, // Width of the image
-      height: 150, // Height of the image
-      marginBottom: 20, // Margin bottom
+      width: 150, 
+      height: 150, 
+      marginBottom: 20, 
     },
   });
 

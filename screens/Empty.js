@@ -2,37 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Todo from '../components/Todo.js';
 import empty from '../assets/empty.png';
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { todosActions } from "../redux/todoSlice";
+import { todoSlice } from "../redux/todoSlice.js";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from '../redux/store.js';
+import EditIcon from "../assets/edit-icon.png"
+import DeleteIcon from "../assets/delete-icon.png"
 
 const Empty = () => {
   const [loading, setLoading] = useState(true);
   const todos = useSelector(state => state.todos.todos); 
   const dispatch = useAppDispatch();
+  const [isUpdate,setIsUpdate] = useState(false); 
+  const [title,setTitle] = useState(""); 
 
   useEffect(() => {
-    console.log(todos);
-    dispatch(todosActions.fetchTodos()); 
     setLoading(false);
   }, [dispatch]);
 
-  const handleAddTodo = (text) => {
-    dispatch(todosActions.addTodo({
-      title: text,
-    }));
-  };
 
   const handleUpdateTodo = (id) => {
-    dispatch(todosActions.updateTodo({
-      id: id,
-    }));
+    setIsUpdate(true);
+    setTitle(id);
   };
 
   const handleDeleteTodo = (id) => {
-    dispatch(todosActions.deleteTodo({
-      id: id,
+    dispatch(todoSlice.actions.deleteTodo({
+      title: id,
     }));
   };
 
@@ -43,7 +38,7 @@ const Empty = () => {
   return (
     <View style={styles.container}>
       <Text style={{ color: '#23143B', textAlign: 'left', fontSize: 25, fontWeight: 200, marginTop: 20 }}>Hi! Udyogi</Text>
-      {todos ? (
+      {todos.length==0 ? (
         <View style={styles.imageContainer}>
           <Image source={empty} style={styles.image} resizeMode="contain" />
         </View>
@@ -52,21 +47,21 @@ const Empty = () => {
           data={todos}
           renderItem={({ item }) => (
             <View style={styles.todoItem}>
-              <Text style={styles.todoText}>{item.text}</Text>
+              <Text style={styles.todoText}>{item.title}</Text>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => handleUpdateTodo(item.id)}>
-                  <Text style={styles.buttonText}><AiFillEdit /></Text>
+                <TouchableOpacity style={styles.button} onPress={() => handleUpdateTodo(item.title)}>
+                  <Image source={EditIcon} width={20} height={20}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => handleDeleteTodo(item.id)}>
-                  <Text style={styles.buttonText}><AiFillDelete /></Text>
+                <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => handleDeleteTodo(item.title)}>
+                <Image source={DeleteIcon} width={20} height={20}/>
                 </TouchableOpacity>
               </View>
             </View>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.title}
         />
-      )}
-      <Todo onAdd={handleAddTodo} />
+      )} 
+      <Todo isUpdate={isUpdate} title={title} setIsUpdate={setIsUpdate} setTitle={setIsUpdate}/>
     </View>
   );
 };
